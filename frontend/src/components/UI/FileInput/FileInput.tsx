@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Button, Grid, TextField} from '@mui/material';
+import {Alert, Button, Grid, TextField} from '@mui/material';
 
 interface Props {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -35,10 +35,11 @@ const FileInput: React.FC<Props> = ({onChange, name, label, type}) => {
 				   ref={inputRef}/>
 			<Grid container direction="row" spacing={2} alignItems="center" sx={{margin: 'auto'}}>
 				<Grid item sx={{margin: 'auto'}} xs={12}>
-					<TextField disabled label={label} value={filename} onClick={activateInput}/>
+					<TextField required disabled label={label} value={filename} onClick={activateInput}/>
 					<Button sx={{margin: 2}} type="button" variant="contained" onClick={activateInput}>
 						Browse
 					</Button>
+					{!filename.length && <Alert severity="error" sx={{mt: 3, width: '100%'}}>Please download file</Alert>}
 				</Grid>
 			</Grid>
 		</>
