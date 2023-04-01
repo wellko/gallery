@@ -1,13 +1,13 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography} from '@mui/material';
 import {apiUrl} from '../../../constants';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {LoadingButton} from '@mui/lab';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {selectUser} from '../../users/UsersSlice';
 import {Photo} from "../../../types";
 import {selectStatusOfDeletingPhoto} from "../PhotoPageSlice";
-import {deletePhoto, getPhotos} from "../PhotoPageThunks";
+import {deletePhoto, getPhotos, getPhotosByAuthor} from "../PhotoPageThunks";
 
 interface state {
 	photo: Photo;
@@ -15,6 +15,7 @@ interface state {
 }
 
 const CocktailCard: React.FC<state> = ({photo, onDialog}) => {
+	const {id} = useParams();
 	const user = useAppSelector(selectUser);
 	const deleting = useAppSelector(selectStatusOfDeletingPhoto);
 	const dispatch = useAppDispatch();
@@ -26,7 +27,11 @@ const CocktailCard: React.FC<state> = ({photo, onDialog}) => {
 
 	const onDelete = async () => {
 		await dispatch(deletePhoto(photo._id));
-		await dispatch(getPhotos());
+			if (id?.length) {
+				await dispatch(getPhotosByAuthor(id));
+			}else {
+				await dispatch(getPhotos());
+			}
 	};
 
 	const onClickNavigate = () => {
@@ -47,7 +52,7 @@ const CocktailCard: React.FC<state> = ({photo, onDialog}) => {
 						created by : {photo.author.displayName}
 					</Typography>
 				</CardActionArea>
-				{user?.role === 'admin' ? (
+				{user?.role === 'admin' || user?._id === id ? (
 					<LoadingButton variant="contained" onClick={onDelete} loading={deleting}>
 						Delete
 					</LoadingButton>
