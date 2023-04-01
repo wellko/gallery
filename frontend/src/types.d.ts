@@ -39,3 +39,13 @@ export interface LoginMutation {
 export interface GlobalError {
 	error: string;
 }
+
+export interface Photo {
+	_id: string;
+	author: {_id: string,
+	displayName: string,};
+	image: string;
+	title: string;
+}
+
+export type PhotoMutation = Omit<Photo, 'author' | '_id'>

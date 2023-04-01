@@ -3,6 +3,7 @@ import {UsersReducer} from '../features/users/UsersSlice';
 import {persistReducer, persistStore} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist/es/constants';
+import {PhotoPageReducer} from "../features/PhotosPage/PhotoPageSlice";
 
 const usersPersistConfig = {
 	key: 'gallery:users',
@@ -11,7 +12,8 @@ const usersPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-	users: persistReducer(usersPersistConfig, UsersReducer)
+	users: persistReducer(usersPersistConfig, UsersReducer),
+	photos: PhotoPageReducer
 });
 
 export const store = configureStore({
