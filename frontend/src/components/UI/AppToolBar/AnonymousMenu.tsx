@@ -6,10 +6,10 @@ const AnonymousMenu = () => {
 	return (
 		<>
 			<Button sx={{marginLeft: 'auto'}} component={NavLink} to="/register" color="inherit">
-				Sign up
+				Register
 			</Button>
 			<Button component={NavLink} to="/login" color="inherit">
-				Sign in
+				Log in
 			</Button>
 		</>
 	);
