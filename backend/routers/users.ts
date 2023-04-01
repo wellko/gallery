@@ -76,7 +76,7 @@ usersRouter.post("/google", async (req, res, next) => {
 			const Path = path.join(config.publicPath, fileName);
 			await fs.writeFile(Path, response.data);
 			user = new User({
-				email: email,
+				email: randomUUID(),
 				password: randomUUID(),
 				googleID: googleId,
 				displayName,
