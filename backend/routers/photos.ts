@@ -1,9 +1,9 @@
 import express from "express";
 import { imagesUpload } from "../multer";
 import auth, { RequestWithUser } from "../middleware/auth";
-import role from "../middleware/role";
 import { promises as fs } from "fs";
 import Photo from "../models/Photo";
+import role from "../middleware/role";
 
 const photoRouter = express.Router();
 
@@ -24,15 +24,14 @@ photoRouter.post("/", auth, imagesUpload.single("image"), async (req, res) => {
 	}
 });
 
-photoRouter.get("/", role, async (req, res) => {
+photoRouter.get("/", async (req, res) => {
 	try {
 		const queryUser = req.query.user as string;
-		const user = (req as RequestWithUser).user;
 		if (queryUser) {
-			const photos = await Photo.find({ author: user?._id}).populate("author", "displayName")
+			const photos = await Photo.find({ author: queryUser}).populate("author", "displayName")
 			return res.send(photos);
 		} else {
-			const photos = await Photo.find({ author: user?._id}).populate("author", "displayName")
+			const photos = await Photo.find().populate("author", "displayName")
 			return res.send(photos);
 		}
 	} catch {
@@ -40,7 +39,7 @@ photoRouter.get("/", role, async (req, res) => {
 	}
 });
 
-photoRouter.delete("/:id", auth, async (req, res) => {
+photoRouter.delete("/:id", role, async (req, res) => {
 	const user = (req as RequestWithUser).user;
 	try {
 		if (user.role === "admin") {
@@ -48,7 +47,7 @@ photoRouter.delete("/:id", auth, async (req, res) => {
 			if (deleted.deletedCount === 1) {
 				return res.send({ message: "deleted" });
 			} else {
-				return res.send({ message: "cant find album" });
+				return res.send({ message: "cant find photo" });
 			}
 		}
 		const deleted = await Photo.deleteOne({

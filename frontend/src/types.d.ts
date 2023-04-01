@@ -48,4 +48,7 @@ export interface Photo {
 	title: string;
 }
 
-export type PhotoMutation = Omit<Photo, 'author' | '_id'>
+export interface PhotoMutation {
+	title: string;
+	image: File | null;
+}

@@ -11,13 +11,14 @@ import {deletePhoto, getPhotos} from "../PhotoPageThunks";
 
 interface state {
 	photo: Photo;
+	onDialog: (url:string) => void;
 }
 
-const CocktailCard: React.FC<state> = ({photo}) => {
+const CocktailCard: React.FC<state> = ({photo, onDialog}) => {
 	const user = useAppSelector(selectUser);
 	const deleting = useAppSelector(selectStatusOfDeletingPhoto);
 	const dispatch = useAppDispatch();
-	let ImgUrl;
+	let ImgUrl = '';
 	if (photo.image) {
 		ImgUrl = apiUrl + photo.image;
 	}
@@ -29,19 +30,21 @@ const CocktailCard: React.FC<state> = ({photo}) => {
 	};
 
 	const onClickNavigate = () => {
-		navigate('/photos/' + photo._id);
+		navigate('/photos/' + photo.author._id);
 	};
 
 	return (
 		<Card sx={{maxWidth: 345}}>
 			<CardMedia component="img" height="200" image={ImgUrl} alt="photo"/>
 			<CardContent>
+				<CardActionArea onClick={() => onDialog(ImgUrl)}>
 				<Typography gutterBottom variant="h4" component="div">
 					 {photo.title}
 				</Typography>
+				</CardActionArea>
 				<CardActionArea onClick={onClickNavigate}>
 					<Typography gutterBottom variant="h5" component="div">
-						created by : {photo.author}
+						created by : {photo.author.displayName}
 					</Typography>
 				</CardActionArea>
 				{user?.role === 'admin' ? (

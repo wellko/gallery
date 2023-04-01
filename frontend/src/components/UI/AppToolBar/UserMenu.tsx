@@ -37,7 +37,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 				<MenuItem
 					onClick={() => {
-						navigate('/photos/myGallery');
+						navigate('/photos/' + user._id);
 					}}
 				>
 					My gallery

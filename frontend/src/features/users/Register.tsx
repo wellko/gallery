@@ -112,7 +112,7 @@ const Register = () => {
 							<FileInput label="Image" onChange={fileInputChangeHandler} name="avatar" type="image/*"/>
 						</Grid>
 					</Grid>
-					<Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
+					<Button disabled={!state.avatar} type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
 						{loading ? <CircularProgress/> : 'Sign Up'}
 					</Button>
 					<Grid container justifyContent="flex-end">

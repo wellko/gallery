@@ -7,6 +7,8 @@ import {Route, Routes} from "react-router-dom";
 import Login from "./features/users/Login";
 import Register from "./features/users/Register";
 import PhotosPage from "./features/PhotosPage/PhotosPage";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import PhotoForm from "./features/PhotosPage/components/PhotoForm";
 
 
 function App() {
@@ -18,6 +20,15 @@ function App() {
 			<Routes>
 				<Route path="*" element={<Typography variant='h1'>Page not found!</Typography>}/>
 				<Route path="/" element={<PhotosPage/>}/>
+				<Route
+					path="/photos/new"
+					element={
+						<ProtectedRoute isAllowed={Boolean(user)}>
+							<PhotoForm/>
+						</ProtectedRoute>
+					}
+				/>
+				<Route path="/photos/:id" element={<PhotosPage/>}/>
 				<Route path="/login" element={<Login/>}/>
 				<Route path="/register" element={<Register/>}/>
 			</Routes>

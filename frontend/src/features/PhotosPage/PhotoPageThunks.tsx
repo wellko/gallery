@@ -28,7 +28,9 @@ export const createPhoto = createAsyncThunk<Photo, PhotoMutation>(
 			const keys = Object.keys(arg) as (keyof PhotoMutation)[];
 			keys.forEach((key) => {
 					const value = arg[key];
-					formData.append(key, value);
+					if (value !== null){
+						formData.append(key, value);
+					}
 				}
 			)
 			;
