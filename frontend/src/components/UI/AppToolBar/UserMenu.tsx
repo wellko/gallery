@@ -43,13 +43,6 @@ const UserMenu: React.FC<Props> = ({user}) => {
 					My gallery
 				</MenuItem>
 				<MenuItem
-					onClick={() => {
-						navigate('/photos/new');
-					}}
-				>
-					Add Photo
-				</MenuItem>
-				<MenuItem
 					onClick={async () => {
 						await dispatch(logoutAction());
 						navigate('/');

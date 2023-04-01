@@ -52,7 +52,7 @@ const CocktailCard: React.FC<state> = ({photo, onDialog}) => {
 						created by : {photo.author.displayName}
 					</Typography>
 				</CardActionArea>
-				{user?.role === 'admin' || user?._id === id ? (
+				{user && user.role === 'admin' || user && user._id === id ? (
 					<LoadingButton variant="contained" onClick={onDelete} loading={deleting}>
 						Delete
 					</LoadingButton>
